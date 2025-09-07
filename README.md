@@ -1,87 +1,65 @@
 # 💼 Microsoft Entra ID: Conditional Access & MFA
 
-> **🎯 Objective:** Apply and test high-value Conditional Access (CA) policies in Microsoft Entra ID to enforce MFA for admin roles and block legacy authentication.
+## 🎯 Project Objective  
+This project demonstrates how to design, configure, and test Conditional Access (CA) policies in Microsoft Entra ID. The goal was to enforce modern identity protections using MFA for privileged users and block legacy authentication methods—without interrupting operations, using report-only mode.
 
 ---
 
-## ✅ Lab Summary
+## 🛠️ What I Did
 
-This lab demonstrates how to configure and validate key Conditional Access policies in Microsoft Entra ID (formerly Azure AD):
+### 1. Disabled Security Defaults  
+- Opened the **Microsoft Entra Admin Center**  
+- Navigated to **Properties > Manage Security defaults**  
+- Disabled Security Defaults to allow custom Conditional Access policy configuration
 
-- Require **MFA for high-privilege admin roles** (e.g., Security Admin)
-- **Block legacy authentication protocols** to improve security posture
-- Run both policies in **Report-only mode** for safe testing
-
----
-
-## 🛠️ Prerequisites
-
-- Microsoft Entra ID P2 license
-- Access to Entra Admin Center
-- One user assigned a privileged admin role (e.g., Security Admin)
-- Break-glass Global Admin account excluded from CA policies
-- 500 test users split across 5 departments
-- Security Defaults disabled
+**⚙️ Security Defaults turned off in Entra ID**
+<br>
+<img width="70%" src="https://github.com/user-attachments/assets/b269b4b5-f35b-4035-8a9e-16a7ac91bef7" />
 
 ---
 
-## 🔧 Step-by-Step Implementation
+### 2. Created CA Policy to Require MFA for Admin Roles  
+- Created a Conditional Access policy named `CA - Require MFA for Admins`  
+- Targeted high-privilege roles: **Global Administrator**, **Security Administrator**, etc.  
+- Excluded the **break-glass** admin account to prevent lockout  
+- Applied to **All cloud apps**  
+- Grant control was set to **Require multi-factor authentication**  
+- Policy mode: **Report-only** for safe validation
 
-### 🔒 Step 0 — Disable Security Defaults
-
-> If enabled, disable Security Defaults to allow for custom Conditional Access configuration.
-
-- Action:  
-  Set to **Disable** and click **Save**
-
-*Security defaults disabled in Entra ID properties*
-<img width="1920" height="965" alt="Screenshot (36)" src="https://github.com/user-attachments/assets/b269b4b5-f35b-4035-8a9e-16a7ac91bef7" />
-
----
-
-### 🔐 Step 1 — Create CA Policy: Require MFA for Admin Roles
-
-> Require multifactor authentication for privileged users using directory roles
-
-- Configuration:
-  - **Name:** `CA - Require MFA for Admins`
-  - **Users:**  
-    - Include: Directory Roles → Select `Global Administrator`, `Security Administrator`, etc.  
-    - Exclude: `breakglass@yourtenant.onmicrosoft.com`
-  - **Cloud apps:** All cloud apps
-  - **Grant controls:** Require multifactor authentication
-  - **Enable policy:** Report-only
-
-📸 *Policy showing MFA for Admins configuration*
-<img width="1920" height="964" alt="Screenshot (38)" src="https://github.com/user-attachments/assets/6de557b3-d2a5-4f2a-9cd9-51ea435c5b2b" />
+**🔐 Conditional Access policy requiring MFA for admin roles**
+<br>
+<img width="70%" src="https://github.com/user-attachments/assets/6de557b3-d2a5-4f2a-9cd9-51ea435c5b2b" />
 
 ---
 
-### 🚫 Step 2 — Create CA Policy: Block Legacy Authentication
+### 3. Created CA Policy to Block Legacy Authentication  
+- Created a Conditional Access policy named `CA - Block Legacy Auth`  
+- Targeted **All users**, excluding the break-glass account  
+- Applied to **All cloud apps**  
+- Configured client apps condition to include **Legacy authentication clients**  
+- Grant control was set to **Block access**  
+- Policy mode: **Report-only**
 
-> Block older authentication protocols that bypass modern security controls like MFA
-
-- Configuration:
-  - **Name:** `CA - Block Legacy Auth`
-  - **Users:**  
-    - Include: All users  
-    - Exclude: `breakglass@yourtenant.onmicrosoft.com`
-  - **Cloud apps:** All
-  - **Conditions → Client apps:**  
-    - Configure = Yes  
-    - Check **Legacy authentication clients**
-  - **Grant controls:** Block access
-  - **Enable policy:** Report-only
-
-*Policy summary page showing legacy auth block configuration*
-<img width="1920" height="960" alt="Screenshot (44)" src="https://github.com/user-attachments/assets/d0cfecf0-ffb6-43b5-b04e-9fbf6c7953a3" />
+**🚫 Conditional Access policy blocking legacy authentication protocols**
+<br>
+<img width="70%" src="https://github.com/user-attachments/assets/d0cfecf0-ffb6-43b5-b04e-9fbf6c7953a3" />
 
 ---
 
 ## ✅ Outcome
 
-- Successfully configured two high-value Conditional Access policies in Microsoft Entra ID
-- All policies run in **Report-only mode** to allow safe evaluation
-- Admin role (e.g., Security Admin) scoped for MFA enforcement
-- Legacy authentication protocols scoped for future blocking
-- Ready for real-world rollout and testing
+- Successfully created and tested two Conditional Access policies:
+  - ✅ **MFA enforcement** for high-privilege roles  
+  - 🚫 **Blocking of legacy authentication protocols**  
+- Both policies were applied in **Report-only mode** to monitor impact without enforcing changes  
+- Confirmed readiness for real-world implementation with no disruptions
+
+---
+
+## 📈 Skills Demonstrated  
+- 🔐 **Conditional Access policy design** in Microsoft Entra ID  
+- 🧪 **Non-disruptive policy testing** using report-only mode  
+- 🛑 **Blocking insecure authentication protocols**  
+- 👥 **Protecting privileged accounts** with enforced MFA
+
+---
